@@ -4,7 +4,7 @@
   "description": "a middleware dsl to validate form submissions",
   "main": "lib/val.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap ./tests"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
   "license": "apache 2.0",
   "bugs": {
     "url": "https://github.com/dscape/val/issues"
+  },
+  "devDependencies": {
+    "tap": "~0.4.4"
   }
 }
