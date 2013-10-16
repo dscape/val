@@ -1,4 +1,7 @@
-var Val = require('../lib/val')();
+var Val = require('../lib/val')({
+  params: 'params'
+});
+
 var test = require("tap").test;
 
 test("validate an email that is required and actually is a good email", function (t) {
@@ -122,44 +125,6 @@ test("email in the wrong format", function (t) {
     }
   }, null, function () {
     t.equal(errored_out, true, 'totally errored out');
-    t.end();
-  });
-});
-
-test("body is required and exists", function (t) {
-  var errored_out = false;
-
-  var val = Val.validate([{
-    required: 'body'
-  }], function on_error(err, req, res, next) {
-    console.log('what is this? is this a prank?');
-    t.equal(err, null, 'yeah really should have worked. you have introduced flaws in the horrible codebase.');
-    next();
-  });
-
-  val({
-    body: 'whoa'
-  }, null, function () {
-    t.equal(errored_out, false, 'as it should, you behave computer. obey your overlord.');
-    t.end();
-  });
-});
-
-
-test("body is required but failwhale, user didnt provide it. #sadpanda", function (t) {
-  var errored_out = false;
-
-  var val = Val.validate([{
-    required: 'body'
-  }], function on_error(err, req, res, next) {
-    errored_out = true;
-    console.log('omg user give me a body. sup with you.');
-    t.ok(err, 'it didnt work cause you did not respect the algorithm');
-    next();
-  });
-
-  val({}, null, function () {
-    t.equal(errored_out, true, 'no body, no fun!');
     t.end();
   });
 });
