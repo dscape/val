@@ -26,7 +26,7 @@ test("validate an email that is required and actually is a good email", function
 });
 
 test("validation error that doesnt call next should not run next", function (t) {
-  t.plan(1);
+  t.plan(3);
 
   var val = Val.validate([{
     required: 'email'
@@ -38,6 +38,8 @@ test("validation error that doesnt call next should not run next", function (t) 
     //
     setTimeout(function () {
       t.ok(err, 'we should have an error');
+      t.ok(err.message, 'should have a message');
+      t.equal(err.field, 'email', 'email is where this failed');
     }, 100);
     //
     // not calling next
@@ -116,6 +118,9 @@ test("email in the wrong format", function (t) {
   }], function on_error(err, req, res, next) {
     errored_out = true;
     t.ok(err, 'we should have an error because the email is not valid');
+    t.ok(err.message, 'should have a message');
+    t.equal(err.field, 'email', 'email is where this failed');
+    t.equal(err.value, 'bar', 'baz is where its at');
     next();
   });
 
