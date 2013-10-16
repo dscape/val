@@ -129,6 +129,54 @@ test("email in the wrong format", function (t) {
   });
 });
 
+test("password with less than 4 chars", function (t) {
+  var errored_out = false;
+
+  var val = Val.validate([{
+    required: 'password'
+  }], function on_error(err, req, res, next) {
+    errored_out = true;
+    t.ok(err, 'we should have an error because password is super short');
+    next();
+  });
+
+  val({
+    params: {
+      password: 'abc'
+    }
+  }, null, function () {
+    t.equal(errored_out, true, 'totally errored out');
+    t.end();
+  });
+});
+
+test("shouldnt call next twice when first validates and second doesnt", function (t) {
+  var n = 0;
+
+  var val = Val.validate([{
+    required: 'password'
+  }, {
+    required: 'email'
+  }], function on_error(err, req, res, next) {
+    next();
+  });
+
+  val({
+    params: {
+      password: 'abcd',
+      email: 'foo'
+    }
+  }, null, function () {
+    n++;
+  });
+
+  setTimeout(function () {
+    t.equal(n, 1, 'next should only be called once');
+    t.end();
+  }, 100);
+});
+
+
 // email is optional and does not exist, validation is ok
 // email is optional but fails validation
 // test for non basic validation, with advanced checks

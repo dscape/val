@@ -1,6 +1,6 @@
 {
   "name": "val",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a middleware dsl to validate form submissions",
   "main": "lib/val.js",
   "scripts": {
